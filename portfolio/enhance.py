@@ -1,0 +1,437 @@
+import re
+import os
+
+html_path = 'c:/Users/Asus/Downloads/GT/portfolio/index.html'
+css_path = 'c:/Users/Asus/Downloads/GT/portfolio/style.css'
+js_path = 'c:/Users/Asus/Downloads/GT/portfolio/script.js'
+
+# --- 1. HTML Replace ---
+with open(html_path, 'r', encoding='utf-8') as f:
+    html = f.read()
+
+# Replace fade-in and slide-up with blur-reveal
+html = html.replace('fade-in', 'blur-reveal')
+html = html.replace('slide-up', 'blur-reveal')
+
+# Add 'magnetic-btn' to buttons and nav-links
+# class="btn btn-primary..." -> class="btn magnetic-btn btn-primary..."
+html = re.sub(r'class="btn\s+', 'class="btn magnetic-btn ', html)
+html = re.sub(r'class="nav-link"', 'class="nav-link magnetic-btn"', html)
+
+# Add class for hero text animation
+html = html.replace('class="name-title"', 'class="name-title split-text-animate"')
+
+# Add floating indicator pill to nav
+if 'class="nav-indicator"' not in html:
+    html = html.replace('<ul class="nav-links">', '<ul class="nav-links">\n                <div class="nav-indicator"></div>')
+
+with open(html_path, 'w', encoding='utf-8') as f:
+    f.write(html)
+
+# --- 2. CSS Inject ---
+with open(css_path, 'r', encoding='utf-8') as f:
+    css = f.read()
+
+# Replace .fade-in and .slide-up sections entirely with .blur-reveal
+anim_block_regex = r"/\* ================= Animations & Scroll Utilities ================= \*/.*?(?=/\* ================= Responsive Design ================= \*/)"
+
+new_anim_css = """/* ================= Animations & Scroll Utilities ================= */
+.blur-reveal {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    filter: blur(10px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                filter 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, opacity, filter;
+}
+
+.blur-reveal.appear {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+}
+
+.delay-1 { transition-delay: 0.15s; }
+.delay-2 { transition-delay: 0.3s; }
+
+/* Splitting text animation */
+.split-text-animate .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px) rotateX(-90deg);
+    transform-origin: bottom center;
+    filter: blur(8px);
+    animation: splitTextAppear 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: calc(var(--char-index) * 0.03s + 0.2s);
+}
+
+@keyframes splitTextAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+        filter: blur(0px);
+    }
+}
+
+/* Magnetic Button helper */
+.magnetic-btn {
+    /* Transforms will be handled via JS */
+    will-change: transform;
+}
+.magnetic-btn .btn-text, .magnetic-btn i {
+    position: relative;
+    z-index: 2;
+    pointer-events: none; /* Let the parent catch hover logic */
+}
+
+/* Smart Navbar Hidden State */
+.glass-nav {
+    /* transition augmented to handle smart scroll hiding */
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background 0.4s, border-radius 0.4s;
+    will-change: transform;
+}
+.glass-nav.nav-hidden {
+    transform: translate(-50%, -150%); /* Disappear up */
+}
+
+/* Floating Nav Highlight Pill */
+.nav-links {
+    position: relative;
+}
+.nav-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    z-index: 0;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.nav-indicator.active {
+    opacity: 1;
+}
+
+/* Add shimmer effect to primary btn */
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-20deg);
+    transition: 0s;
+    z-index: 3;
+}
+.btn-primary:hover::after {
+    left: 150%;
+    transition: 0.8s ease-in-out;
+}
+
+/* Glare for holograph tilt cards */
+.glare {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15), transparent 60%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+    mix-blend-mode: overlay;
+    transition: opacity 0.4s ease;
+}
+.tilt-card:hover .glare {
+    opacity: 1;
+    transition: opacity 0.1s ease;
+}
+"""
+css = re.sub(anim_block_regex, new_anim_css, css, flags=re.MULTILINE|re.DOTALL)
+with open(css_path, 'w', encoding='utf-8') as f:
+    f.write(css)
+
+# --- 3. JS Rewrite ---
+# We will just rewrite the `script.js` directly to ensure clean logic integration.
+new_js = """// Run when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 0. Split Text Hero Animation logic
+    const splitElements = document.querySelectorAll('.split-text-animate');
+    splitElements.forEach(el => {
+        const text = el.innerText;
+        el.innerHTML = '';
+        let charIndex = 0;
+        
+        // Split by standard words/br to preserve original structure slightly
+        // For simplicity, just split all characters except spaces
+        for (let i = 0; i < text.length; i++) {
+            const char = text[i];
+            if (char === ' ') {
+                el.innerHTML += '&nbsp;';
+            } else if (char === '\\n') {
+                 el.innerHTML += '<br>';
+            } else {
+                const span = document.createElement('span');
+                span.classList.add('char');
+                span.style.setProperty('--char-index', charIndex);
+                span.textContent = char;
+                if(text.substring(i).startsWith("SAI KIRAN")) {
+                   span.classList.add("highlight-text"); // carry over formatting
+                }
+                el.appendChild(span);
+                charIndex++;
+            }
+        }
+    });
+
+    // 1. Initialize 3D Background effect
+    const vantaEffect = VANTA.NET({
+        el: ".background-container",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        color: 0x00f3ff,
+        backgroundColor: 0x050508,
+        points: 8.00,
+        maxDistance: 18.00,
+        spacing: 17.00
+    });
+    
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 2. Custom Cursor
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorGlow = document.querySelector('.cursor-glow');
+    
+    if (window.matchMedia("(pointer: fine)").matches) {
+        document.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            
+            cursorGlow.style.left = `${posX}px`;
+            cursorGlow.style.top = `${posY}px`;
+
+            // Deeper Parallax for floating elements
+            const parallaxWraps = document.querySelectorAll('.parallax-wrap');
+            parallaxWraps.forEach(wrap => {
+                const elements = wrap.querySelectorAll('.parallax-element');
+                elements.forEach(el => {
+                    const speed = el.getAttribute('data-speed') || 2;
+                    const x = ((posX - window.innerWidth / 2) * speed) / 80; // deepened
+                    const y = ((posY - window.innerHeight / 2) * speed) / 80;
+                    el.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            });
+        });
+
+        const interactives = document.querySelectorAll('a, button, input, textarea, .glass-card, .skill-item');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+        
+        // 2b. Magnetic Hover Logic
+        const magnetics = document.querySelectorAll('.magnetic-btn');
+        magnetics.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const h = rect.width / 2;
+                const v = rect.height / 2;
+                
+                // Calculate distance from center
+                const x = e.clientX - rect.left - h;
+                const y = e.clientY - rect.top - v;
+                
+                // Pull element strongly but safely
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.4}px) scale(1.05)`;
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = `translate(0px, 0px) scale(1)`;
+                btn.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+                setTimeout(() => btn.style.transition = '', 400);
+            });
+        });
+    }
+
+    // 3. Smart Navbar & Active Indicator
+    const mobileBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const icon = mobileBtn.querySelector('i');
+    
+    mobileBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
+    });
+
+    const header = document.querySelector('.glass-nav');
+    const sections = document.querySelectorAll('section');
+    const navItems = document.querySelectorAll('.nav-link');
+    const indicator = document.querySelector('.nav-indicator');
+    
+    let lastScrollY = window.scrollY;
+
+    const updateIndicator = (activeItem) => {
+        if(!indicator || !activeItem) return;
+        indicator.classList.add('active');
+        indicator.style.width = `${activeItem.offsetWidth}px`;
+        indicator.style.height = `${activeItem.offsetHeight}px`;
+        indicator.style.left = `${activeItem.offsetLeft}px`;
+        indicator.style.top = `${activeItem.offsetTop}px`;
+    };
+
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+        
+        // Smart nav hide/reveal
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            header.classList.add('nav-hidden');
+        } else {
+            header.classList.remove('nav-hidden');
+        }
+        
+        if (currentScrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        lastScrollY = currentScrollY;
+
+        // Active link detect
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollY >= (sectionTop - sectionHeight / 3)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href').includes(current)) {
+                item.classList.add('active');
+                updateIndicator(item);
+            }
+        });
+    });
+
+    // 4. Advanced Scroll Blur Reveals
+    const fadeElements = document.querySelectorAll('.blur-reveal');
+    const appearOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+
+    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('appear');
+            observer.unobserve(entry.target);
+        });
+    }, appearOptions);
+
+    fadeElements.forEach(el => appearOnScroll.observe(el));
+
+    // 5. Holographic Glare on Cards
+    const tiltCards = document.querySelectorAll('.tilt-card');
+    tiltCards.forEach(card => {
+        // Add glare element
+        const glare = document.createElement('div');
+        glare.classList.add('glare');
+        card.appendChild(glare);
+
+        card.addEventListener('mousemove', (e) => {
+            if (window.innerWidth < 768) return; 
+            
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = ((y - centerY) / centerY) * -10;
+            const rotateY = ((x - centerX) / centerX) * 10;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            
+            // Glare logic
+            const angle = Math.atan2(y - centerY, x - centerX) * 180 / Math.PI - 90;
+            glare.style.background = `linear-gradient(${angle}deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 80%)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+            glare.style.opacity = '0';
+            setTimeout(() => card.style.transition = '', 500);
+        });
+        
+        card.addEventListener('mouseenter', () => {
+            glare.style.opacity = '1';
+        });
+    });
+
+    // 6. Form Handling (Preserved)
+    const form = document.getElementById('contactForm');
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            const submitter = e.submitter;
+            const submitType = submitter ? submitter.value : 'email';
+            const btn = submitter || form.querySelector('.form-submit-btn');
+            const originalText = btn.innerHTML;
+            const originalBg = btn.style.backgroundColor;
+            
+            btn.innerHTML = `<span class="btn-text" style="color: inherit;">Sending...</span><i class="fas fa-spinner fa-spin send-icon"></i>`;
+            
+            if (submitType === 'whatsapp') {
+                const phone = "919014871553";
+                const waText = `Hello Taninki, I am ${name}.\\n\\n${message}\\n\\nYou can reach me at: ${email}`;
+                window.open(`https://wa.me/${phone}?text=${encodeURIComponent(waText)}`, '_blank');
+                btn.innerHTML = `<span class="btn-text" style="color: #25D366;">Opened!</span><i class="fas fa-check send-icon" style="color: #25D366;"></i>`;
+                form.reset();
+                setTimeout(() => btn.innerHTML = originalText, 3000);
+            } else {
+                const mailtoEmail = "taninkivinda@gmail.com";
+                const emailSubject = `Portfolio Contact from ${name}`;
+                const emailBody = `Name: ${name}\\nEmail: ${email}\\n\\nMessage:\\n${message}`;
+                window.location.href = `mailto:${mailtoEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+                btn.innerHTML = `<span class="btn-text">Opened Client!</span><i class="fas fa-check send-icon"></i>`;
+                btn.style.backgroundColor = 'rgba(57, 255, 20, 0.2)';
+                form.reset();
+                setTimeout(() => { btn.innerHTML = originalText; btn.style.backgroundColor = originalBg; }, 3000);
+            }
+        });
+    }
+
+    // 7. Smooth Scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({ top: targetElement.offsetTop - 80, behavior: 'smooth' });
+            }
+        });
+    });
+});
+"""
+
+with open(js_path, 'w', encoding='utf-8') as f:
+    f.write(new_js)

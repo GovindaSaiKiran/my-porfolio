@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Ultra-modern, premium personal portfolio of TANINKI GOVINDA SAI KIRAN - AIML and Quantum Engineering student.">
+    <title>TANINKI GOVINDA SAI KIRAN | Portfolio</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-glow"></div>
+
+    <!-- 3D Background effect (floating blobs) -->
+    <div class="background-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+        <div class="noise-overlay"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <a href="#home" class="logo">TGSK<span class="dot">.</span></a>
+            <ul class="nav-links">
+                <div class="nav-indicator"></div>
+                <li><a href="#about" class="nav-link magnetic-btn">About</a></li>
+                <li><a href="#skills" class="nav-link magnetic-btn">Skills</a></li>
+                <li><a href="#certifications" class="nav-link magnetic-btn">Certifications</a></li>
+                <li><a href="#projects" class="nav-link magnetic-btn">Projects</a></li>
+                <li><a href="#contact" class="nav-link magnetic-btn">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Home / Hero Section -->
+        <section id="home" class="hero section-padding">
+            <div class="hero-content blur-reveal">
+                <p class="greeting">Hello, I am</p>
+                <h1 class="name-title split-text-animate">TANINKI GOVINDA <br><span class="highlight-text">SAI KIRAN</span></h1>
+                <h2 class="subtitle">Aspiring AI & ML Engineer | Web Developer</h2>
+                <p class="intro-text">
+                    Merging the analytical power of artificial intelligence with the creative possibilities of web
+                    development. Preparing for a future in Quantum Engineering.
+                </p>
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn magnetic-btn btn-primary glass-btn">
+                        <span class="btn-text">View Projects</span>
+                        <div class="btn-glow"></div>
+                    </a>
+                    <a href="#contact" class="btn magnetic-btn btn-secondary glass-btn">
+                        <span class="btn-text">Contact Me</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Abstract 3D Object Representation -->
+            <div class="hero-graphic parallax-wrap">
+                <div class="elegant-blob-container parallax-element float-animation" data-speed="-2">
+                    <div class="elegant-blob-outer"></div>
+                    <div class="elegant-blob"></div>
+                    <!-- Subtle Cursor Light Reflection -->
+                    <div class="blob-reflection"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about section-padding">
+            <div class="section-header blur-reveal">
+                <h2 class="section-title">About <span class="highlight-text">Me</span></h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="about-grid">
+                <div class="glass-card main-about-card tilt-card blur-reveal">
+                    <div class="card-glow"></div>
+                    <div class="icon-glass-container">
+                        <i class="fas fa-user-astronaut card-icon"></i>
+                    </div>
+                    <h3>The Journey</h3>
+                    <p>I am a passionate 1st-year student deeply invested in Artificial Intelligence, Machine Learning,
+                        and Quantum Engineering at Aurora Deemed to be University in collaboration with NIAT. My goal is
+                        to build intelligent systems and beautiful web experiences that push the boundaries of
+                        technology.</p>
+                </div>
+
+                <div class="glass-card education-card tilt-card blur-reveal delay-1">
+                    <div class="card-glow"></div>
+                    <div class="icon-glass-container" style="border-color: rgba(255, 0, 127, 0.2);">
+                        <i class="fas fa-graduation-cap card-icon" style="color: var(--neon-pink); filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.3));"></i>
+                    </div>
+                    <h3>Education</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h4>Aurora Deemed to be University (NIAT)</h4>
+                            <p class="timeline-date">Current - 1st Year</p>
+                            <p>B.Tech in Artificial Intelligence & Machine Learning</p>
+                            <p>Specialization: Quantum Engineering</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="skills section-padding">
+            <div class="section-header blur-reveal">
+                <h2 class="section-title">Technical <span class="highlight-text">Arsenal</span></h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="skills-container">
+                <div class="skill-category blur-reveal">
+                    <h3 class="category-title">Languages & Web</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item glass-bubble">
+                            <i class="fab fa-python skill-icon python-color"></i>
+                            <span>Python</span>
+                        </div>
+                        <div class="skill-item glass-bubble">
+                            <i class="fab fa-js skill-icon js-color"></i>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="skill-item glass-bubble">
+                            <i class="fab fa-html5 skill-icon html-color"></i>
+                            <span>HTML5</span>
+                        </div>
+                        <div class="skill-item glass-bubble">
+                            <i class="fab fa-css3-alt skill-icon css-color"></i>
+                            <span>CSS3</span>
+                        </div>
+                        <div class="skill-item glass-bubble">
+                            <span class="skill-icon c-color"><i class="fa-solid fa-c"></i></span>
+                            <span>C Programming</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category blur-reveal delay-1">
+                    <h3 class="category-title">Creative & Tools</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item glass-bubble">
+                            <i class="fas fa-video skill-icon video-color"></i>
+                            <span>Video Editing</span>
+                        </div>
+                        <div class="skill-item glass-bubble">
+                            <i class="fas fa-image skill-icon photo-color"></i>
+                            <span>Photo Editing</span>
+                        </div>
+                        <div class="skill-item glass-bubble">
+                            <i class="fas fa-pen-nib skill-icon design-color"></i>
+                            <span>UI/UX Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications & Interests Section (Combined layout for better flow) -->
+        <section id="certifications" class="dual-section section-padding">
+            <div class="dual-columns">
+                <!-- Certifications -->
+                <div class="column certifications blur-reveal">
+                    <div class="section-header">
+                        <h2 class="section-title">Verified <span class="highlight-text">Skills</span></h2>
+                        <div class="section-line"></div>
+                    </div>
+                    <div class="cards-list">
+                        <div class="glass-list-item tilt-card">
+                            <div class="icon-glass-container" style="width: 50px; height: 50px; margin-bottom: 0; margin-right: 20px;">
+                                <i class="fas fa-certificate" style="font-size: 1.2rem !important;"></i>
+                            </div>
+                            <div class="item-content">
+                                <h4>Ben10x Workshop</h4>
+                                <p>Interactive learning and hands-on skills</p>
+                            </div>
+                        </div>
+                        <div class="glass-list-item tilt-card">
+                            <div class="icon-glass-container" style="width: 50px; height: 50px; margin-bottom: 0; margin-right: 20px;">
+                                <i class="fas fa-certificate" style="font-size: 1.2rem !important;"></i>
+                            </div>
+                            <div class="item-content">
+                                <h4>Base44 Workshop</h4>
+                                <p>Technical foundation and development</p>
+                            </div>
+                        </div>
+                        <div class="glass-list-item tilt-card">
+                            <div class="icon-glass-container" style="width: 50px; height: 50px; margin-bottom: 0; margin-right: 20px;">
+                                <i class="fas fa-award" style="font-size: 1.2rem !important;"></i>
+                            </div>
+                            <div class="item-content">
+                                <h4>Tata Forage</h4>
+                                <p>Professional certification program</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interests -->
+                <div class="column interests blur-reveal delay-1">
+                    <div class="section-header">
+                        <h2 class="section-title">Core <span class="highlight-text">Interests</span></h2>
+                        <div class="section-line"></div>
+                    </div>
+                    <div class="cards-list">
+                        <div class="glass-list-item tilt-card">
+                            <div class="icon-glass-container" style="width: 50px; height: 50px; margin-bottom: 0; margin-right: 20px;">
+                                <i class="fas fa-mobile-alt" style="font-size: 1.2rem !important;"></i>
+                            </div>
+                            <div class="item-content">
+                                <h4>App Development</h4>
+                                <p>Building seamless mobile experiences</p>
+                            </div>
+                        </div>
+                        <div class="glass-list-item tilt-card">
+                            <div class="icon-glass-container" style="width: 50px; height: 50px; margin-bottom: 0; margin-right: 20px;">
+                                <i class="fas fa-globe" style="font-size: 1.2rem !important;"></i>
+                            </div>
+                            <div class="item-content">
+                                <h4>Web Development</h4>
+                                <p>Creating responsive, modern web apps</p>
+                            </div>
+                        </div>
+                        <div class="glass-list-item tilt-card">
+                            <div class="icon-glass-container" style="width: 50px; height: 50px; margin-bottom: 0; margin-right: 20px;">
+                                <i class="fas fa-microchip" style="font-size: 1.2rem !important;"></i>
+                            </div>
+                            <div class="item-content">
+                                <h4>Future Technologies</h4>
+                                <p>Quantum Computing & Advanced AI</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="projects section-padding">
+            <div class="section-header blur-reveal">
+                <h2 class="section-title">Featured <span class="highlight-text">Work</span></h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="glass-project-card tilt-card blur-reveal">
+                    <div class="project-image-placeholder">
+                        <img src="assets/project-ml.png" alt="Machine Learning Model" class="project-img">
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Machine Learning Model</h3>
+                        <p>Predictive analysis model built with Python and scikit-learn.</p>
+                        <div class="tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">ML</span>
+                        </div>
+                        <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> View Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="glass-project-card tilt-card blur-reveal delay-1">
+                    <div class="project-image-placeholder">
+                        <img src="assets/project-web.png" alt="Modern Web Dashboard" class="project-img">
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Modern Web Dashboard</h3>
+                        <p>Responsive analytics dashboard with glassmorphism UI.</p>
+                        <div class="tags">
+                            <span class="tag">HTML/CSS</span>
+                            <span class="tag">JS</span>
+                        </div>
+                        <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> View Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="glass-project-card tilt-card blur-reveal delay-2">
+                    <div class="project-image-placeholder">
+                        <img src="assets/project-app.png" alt="Smart Utility App" class="project-img">
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Smart Utility App</h3>
+                        <p>Mobile application concept for daily task management.</p>
+                        <div class="tags">
+                            <span class="tag">UI/UX</span>
+                            <span class="tag">Design</span>
+                        </div>
+                        <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> View Details</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact section-padding">
+            <div class="section-header blur-reveal">
+                <h2 class="section-title">Get In <span class="highlight-text">Touch</span></h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="contact-container">
+                <div class="contact-info glass-card blur-reveal">
+                    <h3>Let's Connect</h3>
+                    <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your
+                        visions.</p>
+
+                    <div class="contact-methods">
+                        <a href="tel:9014871553" class="contact-method-item">
+                            <div class="method-icon"><i class="fas fa-phone-alt"></i></div>
+                            <div class="method-text">
+                                <span class="method-label">Call Me</span>
+                                <span class="method-value">9014871553</span>
+                            </div>
+                        </a>
+
+                        <a href="mailto:taninkivinda@gmail.com" class="contact-method-item">
+                            <div class="method-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="method-text">
+                                <span class="method-label">Email Me</span>
+                                <span class="method-value">taninkivinda@gmail.com</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="social-links">
+                        <a href="#" class="social-btn glass-btn-round" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-btn glass-btn-round" title="LinkedIn"><i
+                                class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-btn glass-btn-round" title="Twitter"><i
+                                class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper glass-card blur-reveal delay-1">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" class="glass-input" placeholder=" " required>
+                            <label for="name">Your Name</label>
+                            <div class="input-glow"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" class="glass-input" placeholder=" " required>
+                            <label for="email">Your Email</label>
+                            <div class="input-glow"></div>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" class="glass-input" rows="4" placeholder=" " required></textarea>
+                            <label for="message">Your Message</label>
+                            <div class="input-glow"></div>
+                        </div>
+                        <div class="form-buttons" style="display: flex; gap: 1rem; width: 100%;">
+                            <button type="submit" name="submitType" value="email"
+                                class="btn magnetic-btn btn-primary form-submit-btn glass-btn" style="flex: 1;">
+                                <span class="btn-text">Email</span>
+                                <div class="btn-glow"></div>
+                                <i class="fas fa-envelope send-icon"></i>
+                            </button>
+                            <button type="submit" name="submitType" value="whatsapp"
+                                class="btn magnetic-btn btn-secondary form-submit-btn glass-btn"
+                                style="flex: 1; border-color: rgba(37, 211, 102, 0.5);">
+                                <span class="btn-text" style="color: #25D366;">WhatsApp</span>
+                                <div class="btn-glow" style="background: rgba(37, 211, 102, 0.2);"></div>
+                                <i class="fab fa-whatsapp send-icon" style="color: #25D366;"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="glass-footer">
+        <div class="footer-content">
+            <p>&copy; <span id="year"></span> TANINKI GOVINDA SAI KIRAN. All rights reserved.</p>
+            <p class="footer-tagline">Crafted with <i class="fas fa-heart glowing-heart"></i> and glassmorphism.</p>
+        </div>
+    </footer>
+
+    <!-- 3D Background Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>
