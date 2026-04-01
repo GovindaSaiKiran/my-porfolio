@@ -12,15 +12,16 @@
     --neon-orange: #ff5500;
     --neon-green: #39ff14;
 
-    /* Standard Glassmorphism System */
-    --glass-bg: rgba(20, 20, 25, 0.45);
-    --glass-edge: rgba(255, 255, 255, 0.12);
-    --glass-blur: blur(20px);
+    /* Standard Glassmorphism System -> Liquid Glass */
+    --glass-bg: rgba(255, 255, 255, 0.04);
+    --glass-edge: rgba(255, 255, 255, 0.08);
+    --glass-blur: blur(8px);
     
     /* Elegant Dark Box Shadow */
-    --glass-depth-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    --glass-depth-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.25);
 
-    /* Gradients */
+    /* Gradients & Interactions */
+    --glass-reflection: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 30%);
     --gradient-primary: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
 
     /* Layout & Soft Curves */
@@ -55,6 +56,81 @@ body {
     /* Custom cursor */
 }
 
+/* Vibrant Animated Gradients layer */
+.vibrant-bg-gradients {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    background-color: var(--bg-dark); /* acts as the bottom-most layer */
+}
+
+/* Base style for gradient layers */
+.glow-layer {
+    position: absolute;
+    width: 60vw;
+    height: 60vw;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: gradient-shift 25s infinite alternate ease-in-out;
+}
+
+.glow-blue {
+    top: -20%;
+    left: -10%;
+    background: radial-gradient(circle, #00f3ff 0%, transparent 60%);
+    animation-delay: 0s;
+}
+
+.glow-purple {
+    bottom: -20%;
+    right: -10%;
+    background: radial-gradient(circle, #bd00ff 0%, transparent 70%);
+    animation-direction: alternate-reverse;
+    animation-delay: -5s;
+    width: 70vw;
+    height: 70vw;
+}
+
+.glow-pink {
+    top: 40%;
+    left: 30%;
+    background: radial-gradient(circle, #ff007f 0%, transparent 60%);
+    animation-delay: -10s;
+    width: 50vw;
+    height: 50vw;
+}
+
+.glow-cyan {
+    top: 50%;
+    right: 20%;
+    background: radial-gradient(circle, #00ffcc 0%, transparent 60%);
+    animation-delay: -7s;
+    width: 65vw;
+    height: 65vw;
+}
+
+.glow-orange {
+    bottom: -10%;
+    left: 10%;
+    background: radial-gradient(circle, #ff5500 0%, transparent 60%);
+    animation-direction: alternate-reverse;
+    animation-delay: -12s;
+    width: 55vw;
+    height: 55vw;
+}
+
+@keyframes gradient-shift {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(5%, 10%) scale(1.1); }
+    100% { transform: translate(-10%, -5%) scale(0.9); }
+}
+
 /* Deep Space Animated Background */
 .background-container {
     position: fixed;
@@ -65,8 +141,8 @@ body {
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    background-color: var(--bg-dark);
-    /* Base color for Vanta */
+    background-color: transparent;
+    /* Base color for Vanta moved to script.js backgroundAlpha: 0 */
 }
 
 .background-container::after {
@@ -321,11 +397,12 @@ li {
 .glass-list-item,
 .glass-input {
     background: var(--glass-bg);
+    background-image: var(--glass-reflection);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-edge);
     border-radius: var(--border-radius);
-    box-shadow: var(--glass-depth-shadow);
+    box-shadow: var(--glass-depth-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.15);
     transition: var(--transition-glass);
     position: relative;
 }
@@ -344,10 +421,13 @@ li {
 .glass-card:hover,
 .glass-project-card:hover,
 .glass-list-item:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.25);
-    background: rgba(30, 30, 40, 0.55);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                0 0 40px rgba(0, 243, 255, 0.2), 
+                0 0 80px rgba(189, 0, 255, 0.15),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    border-color: rgba(0, 243, 255, 0.4);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 
@@ -357,7 +437,7 @@ li {
 /* ================= Navigation (Floating Glass Panel) ================= */
 .glass-nav {
     position: fixed;
-    top: 20px;
+    top: 15px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -367,28 +447,36 @@ li {
     z-index: 1000;
     transition: var(--transition-smooth);
     background: var(--glass-bg);
+    background-image: var(--glass-reflection);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-edge);
-    box-shadow: var(--glass-depth-shadow);
+    box-shadow: var(--glass-depth-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.15);
 }
-
-
-
-
 
 .glass-nav.scrolled {
-    width: 100%;
-    top: 0;
-    border-radius: 0;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    background: rgba(10, 10, 15, 0.88);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    top: 15px;
+    background: rgba(10, 10, 15, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.15);
+    border-radius: var(--border-radius-pill);
 }
+
+/* Scroll Reveals */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.scroll-reveal.appear {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.delay-1 { transition-delay: 0.15s; }
+.delay-2 { transition-delay: 0.3s; }
 
 .nav-container {
     display: flex;
@@ -476,14 +564,16 @@ li {
     z-index: 1;
     cursor: pointer;
     border: 1px solid var(--glass-edge);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.04);
+    background-image: var(--glass-reflection);
     backdrop-filter: var(--glass-blur);
     color: var(--text-main);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.15);
 }
 
 .btn:active {
-    transform: scale(0.96);
+    transform: scale(0.96) translateY(2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Primary Button with Neon Glow Expansion on Hover */
@@ -513,9 +603,9 @@ li {
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px);
-    border-color: rgba(0, 243, 255, 0.8);
-    box-shadow: 0 0 25px rgba(0, 243, 255, 0.5), 0 8px 30px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px) scale(1.03);
+    border-color: rgba(0, 243, 255, 0.6);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3), 0 8px 30px rgba(0, 0, 0, 0.3);
     color: #fff;
 }
 
@@ -528,11 +618,18 @@ li {
     transform: scale(1.1);
 }
 
+.btn-secondary {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    box-shadow: none;
+}
+
 .btn-secondary:hover {
-    transform: translateY(-3px);
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px) scale(1.03);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25), 0 0 20px rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 /* ================= Hero Section ================= */
 .hero {
@@ -608,85 +705,68 @@ li {
     transform: scale(1.03);
 }
 
-/* Outer Glow / Soft Ambient Layer */
-.elegant-blob-outer {
-    position: absolute;
-    width: 110%;
-    height: 110%;
-    background: linear-gradient(135deg, rgba(0, 243, 255, 0.4), rgba(189, 0, 255, 0.4), rgba(255, 0, 127, 0.3));
-    background-size: 200% 200%;
-    filter: blur(35px);
-    opacity: 0.3;
-    border-radius: 50%;
-    animation: elegant-glow 12s ease-in-out infinite alternate;
-    z-index: 1;
-    transition: opacity 0.6s ease, filter 0.6s ease;
-}
-
-.elegant-blob-container:hover .elegant-blob-outer {
-    opacity: 0.5;
-    filter: blur(45px);
-}
-
 /* Base Soft Liquid Body (True Liquid Glass) */
 .elegant-blob {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(0, 243, 255, 0.1), rgba(255, 0, 127, 0.05));
-    background-image: var(--glass-reflection), linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(0, 243, 255, 0.1), rgba(255, 0, 127, 0.05));
-    background-size: 250% 250%;
+    /* Extremely translucent glass */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
     border-radius: 50%;
+    
+    /* Perfect glass morphic shading: sharp bright rim light, intense glossy sheer */
     box-shadow:
-        var(--glass-inner-glow),
-        inset 10px 10px 40px rgba(255, 255, 255, 0.5),
-        inset -10px -10px 40px rgba(0, 243, 255, 0.2),
+        inset 10px 10px 30px rgba(255, 255, 255, 0.8),
+        inset -10px -10px 30px rgba(0, 0, 0, 0.2),
         inset 0 0 20px rgba(255, 255, 255, 0.3),
-        0 20px 40px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    animation: elegant-flow 12s ease-in-out infinite alternate;
+        0 30px 60px rgba(0, 0, 0, 0.5);
+        
+    /* Heavy blur for perfect glassmorphism */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    
+    /* Perfect round bubble with steady floating animation */
+    animation: bubble-float 6s ease-in-out infinite alternate;
     z-index: 2;
     transition: var(--transition-smooth);
-    border: 1px solid var(--glass-border);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    
+    /* Used for swirling gradient */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Swirling vibrant gradient inside the glass sphere */
+.elegant-blob::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, #00f3ff, #ff007f, #bd00ff, #00f3ff);
+    filter: blur(50px);
+    opacity: 0.6;
+    animation: rotate-colors 8s linear infinite;
+    z-index: -1;
 }
 
 .elegant-blob-container:hover .elegant-blob {
     box-shadow:
-        inset 10px 10px 30px rgba(255, 255, 255, 0.4),
-        inset -10px -10px 30px rgba(0, 0, 0, 0.2),
-        0 0 45px rgba(189, 0, 255, 0.4);
+        inset 15px 15px 45px rgba(255, 255, 255, 1),
+        inset -15px -15px 40px rgba(0, 0, 0, 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.5),
+        0 40px 80px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.6);
 }
 
-/* Subtle Cursor Reflection Area (Controlled by JS) */
-.blob-reflection {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 150px;
-    height: 150px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 70%);
-    mix-blend-mode: overlay;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 4;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    transform: translate(-50%, -50%);
-    /* Base center */
+@keyframes rotate-colors {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-@keyframes elegant-morph {
-    0% {
-        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    }
-
-    50% {
-        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-    }
-
-    100% {
-        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    }
+@keyframes bubble-float {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-20px); }
 }
 
 @keyframes elegant-flow {
@@ -719,12 +799,12 @@ li {
     }
 
     50% {
-        transform: translateY(-20px) rotate(-0.5deg);
+        transform: translateY(-15px) rotate(-0.5deg);
     }
 }
 
 .float-animation {
-    animation: float-animation 6s ease-in-out infinite;
+    animation: float-animation 12s ease-in-out infinite;
 }
 
 /* ================= About Section ================= */

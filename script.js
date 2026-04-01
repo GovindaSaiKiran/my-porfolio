@@ -40,8 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
         minWidth: 200.00,
         scale: 1.00,
         scaleMobile: 1.00,
-        color: 0x00f3ff,
+        color: 0x33b8ff,
         backgroundColor: 0x050508,
+        backgroundAlpha: 0.00,
         points: 8.00,
         maxDistance: 18.00,
         spacing: 17.00
@@ -137,12 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', () => {
         const currentScrollY = window.scrollY;
         
-        // Smart nav hide/reveal
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-            header.classList.add('nav-hidden');
-        } else {
-            header.classList.remove('nav-hidden');
-        }
+        // Navbar hide logic removed - Navbar remains stable on scroll
         
         if (currentScrollY > 50) {
             header.classList.add('scrolled');
@@ -170,8 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 4. Advanced Scroll Blur Reveals
-    const fadeElements = document.querySelectorAll('.blur-reveal');
+    // 4. Advanced Scroll Reveals
+    const fadeElements = document.querySelectorAll('.scroll-reveal');
     const appearOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
 
     const appearOnScroll = new IntersectionObserver(function(entries, observer) {
