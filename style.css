@@ -53,238 +53,140 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     cursor: none;
-    /* Custom cursor */
 }
 
-/* Vibrant Animated Gradients layer */
-.vibrant-bg-gradients {
+/* Hide default cursor on ALL elements */
+*, *::before, *::after {
+    cursor: none !important;
+}
+
+/* Antigravity Dark UI Background */
+.antigravity-bg {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: linear-gradient(135deg, #020205 0%, #050510 100%);
     z-index: -1;
-    pointer-events: none;
     overflow: hidden;
-    background-color: var(--bg-dark); /* acts as the bottom-most layer */
+    pointer-events: none;
 }
 
-/* Base style for gradient layers */
-.glow-layer {
+
+
+#neural-net-bg {
     position: absolute;
-    width: 60vw;
-    height: 60vw;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Ambient glow rings in the background */
+.ambient-glow {
+    position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.35;
-    animation: gradient-shift 25s infinite alternate ease-in-out;
-}
-
-.glow-blue {
-    top: -20%;
-    left: -10%;
-    background: radial-gradient(circle, #00f3ff 0%, transparent 60%);
-    animation-delay: 0s;
-}
-
-.glow-purple {
-    bottom: -20%;
-    right: -10%;
-    background: radial-gradient(circle, #bd00ff 0%, transparent 70%);
-    animation-direction: alternate-reverse;
-    animation-delay: -5s;
-    width: 70vw;
-    height: 70vw;
-}
-
-.glow-pink {
-    top: 40%;
-    left: 30%;
-    background: radial-gradient(circle, #ff007f 0%, transparent 60%);
-    animation-delay: -10s;
-    width: 50vw;
-    height: 50vw;
-}
-
-.glow-cyan {
-    top: 50%;
-    right: 20%;
-    background: radial-gradient(circle, #00ffcc 0%, transparent 60%);
-    animation-delay: -7s;
-    width: 65vw;
-    height: 65vw;
-}
-
-.glow-orange {
-    bottom: -10%;
-    left: 10%;
-    background: radial-gradient(circle, #ff5500 0%, transparent 60%);
-    animation-direction: alternate-reverse;
-    animation-delay: -12s;
-    width: 55vw;
-    height: 55vw;
-}
-
-@keyframes gradient-shift {
-    0% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(5%, 10%) scale(1.1); }
-    100% { transform: translate(-10%, -5%) scale(0.9); }
-}
-
-/* Deep Space Animated Background */
-.background-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-    background-color: transparent;
-    /* Base color for Vanta moved to script.js backgroundAlpha: 0 */
-}
-
-.background-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, transparent 20%, rgba(0, 0, 0, 0.8) 120%);
-    pointer-events: none;
+    filter: blur(100px);
+    opacity: 0.4;
     z-index: 1;
 }
 
-@keyframes space-flow {
-    0% {
-        background-position: 0% 50%;
-    }
 
-    100% {
-        background-position: 100% 50%;
-    }
+
+
+.glow-1 {
+    top: -10%; left: -10%;
+    background: radial-gradient(circle, var(--neon-cyan) 0%, transparent 70%);
 }
 
-/* Fluidify 3D Blobs Base */
-.blob {
-    display: none;
-    /* Hidden in favor of Vanta.js */
-    position: absolute;
-    filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.4));
-    animation: morph-blob 15s infinite ease-in-out alternate, floating-blob 20s infinite ease-in-out alternate;
-    z-index: 0;
+.glow-2 {
+    bottom: -10%; right: -10%;
+    background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
 }
 
-/* 3D Glossy Specular Highlight */
-.blob::after {
-    content: '';
+/* Antigravity Floating Elements */
+.ag-element {
     position: absolute;
-    top: 5%;
-    left: 10%;
-    width: 50%;
-    height: 35%;
-    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.8) 0%, transparent 60%);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 
+        inset 2px 2px 5px rgba(255, 255, 255, 0.3),
+        inset -2px -2px 10px rgba(0, 0, 0, 0.5),
+        0 8px 32px rgba(0, 0, 0, 0.4);
+    will-change: transform;
+}
+
+/* Specific Shapes */
+.shape-circle {
+    width: 150px; height: 150px;
     border-radius: 50%;
-    transform: rotate(-25deg);
-    mix-blend-mode: overlay;
-    pointer-events: none;
+    top: 20%; left: 15%;
+    box-shadow: 0 0 40px rgba(0, 243, 255, 0.1), inset 1px 1px 5px rgba(255,255,255,0.4);
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.05), transparent);
 }
 
-/* Secondary Reflection Rim */
-.blob::before {
-    content: '';
-    position: absolute;
-    bottom: -5%;
-    right: -5%;
-    width: 60%;
-    height: 60%;
-    background: radial-gradient(circle at center, rgba(0, 243, 255, 0.4) 0%, transparent 60%);
+.shape-square {
+    width: 200px; height: 200px;
+    border-radius: 40px;
+    top: 60%; right: 10%;
+    transform: rotate(15deg);
+    box-shadow: 0 0 50px rgba(189, 0, 255, 0.1), inset 1px 1px 5px rgba(255,255,255,0.2);
+    background: linear-gradient(135deg, rgba(189, 0, 255, 0.05), transparent);
+}
+
+.shape-ring {
+    width: 250px; height: 250px;
     border-radius: 50%;
-    mix-blend-mode: screen;
-    pointer-events: none;
+    border: 15px solid rgba(255, 255, 255, 0.03);
+    background: transparent;
+    top: 70%; left: 20%;
+    box-shadow: 
+        0 0 30px rgba(57, 255, 20, 0.05),
+        inset 0 0 20px rgba(57, 255, 20, 0.05);
 }
 
-/* Individual Iridescent 3D Shapes */
-.blob-1 {
-    width: 450px;
-    height: 450px;
-    top: -5%;
-    left: -5%;
-    background: radial-gradient(circle at 35% 35%, #00f3ff, #2900ff, #bd00ff);
-    box-shadow: inset -30px -30px 60px rgba(0, 0, 0, 0.6), inset 30px 30px 60px rgba(255, 255, 255, 0.7);
-    animation-duration: 22s, 18s;
+.shape-blob {
+    width: 300px; height: 300px;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    top: -5%; right: 25%;
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.05), transparent);
+    box-shadow: 0 0 60px rgba(255, 0, 127, 0.1);
 }
 
-.blob-2 {
-    width: 550px;
-    height: 550px;
-    bottom: -15%;
-    right: -10%;
-    background: radial-gradient(circle at 25% 25%, #ff00ff, #bd00ff, #0011ff);
-    box-shadow: inset -40px -40px 80px rgba(0, 0, 0, 0.7), inset 40px 40px 80px rgba(255, 255, 255, 0.8);
-    animation-delay: -5s;
-    animation-duration: 25s, 20s;
+.shape-donut {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    border: 25px solid rgba(0, 255, 204, 0.03);
+    background: transparent;
+    top: 30%; right: 35%;
 }
 
-.blob-3 {
-    width: 300px;
-    height: 300px;
-    top: 45%;
-    left: 55%;
-    background: radial-gradient(circle at 40% 40%, #00ffcc, #0088ff, #4400ff);
-    box-shadow: inset -20px -20px 40px rgba(0, 0, 0, 0.6), inset 20px 20px 40px rgba(255, 255, 255, 0.7);
-    animation-delay: -10s;
-    animation-duration: 16s, 24s;
-    transform: scale(0.8);
+/* Depth of Field Classes */
+.blur-none { backdrop-filter: blur(20px); filter: blur(0px); }
+.blur-sm { backdrop-filter: blur(15px); filter: blur(2px); z-index: -2; }
+.blur-md { backdrop-filter: blur(10px); filter: blur(4px); z-index: -3; }
+.blur-lg { backdrop-filter: blur(5px); filter: blur(8px); z-index: -4; }
+.blur-xl { filter: blur(15px); z-index: -5; }
+
+/* Floating Particles */
+.ag-particles {
+    position: absolute;
+    width: 100%; height: 100%;
 }
 
-.blob-4 {
-    width: 250px;
-    height: 250px;
-    top: 15%;
-    right: 15%;
-    background: radial-gradient(circle at 30% 30%, #ff007f, #aa00ff, #0000ff);
-    box-shadow: inset -15px -15px 30px rgba(0, 0, 0, 0.5), inset 15px 15px 30px rgba(255, 255, 255, 0.6);
-    animation-delay: -15s;
-    animation-duration: 14s, 19s;
+.ag-particle {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    filter: blur(1px);
+    opacity: 0.4;
+    animation: floatParticle linear infinite;
+    will-change: transform, opacity;
 }
 
-@keyframes morph-blob {
-    0% {
-        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    }
-
-    33% {
-        border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
-    }
-
-    66% {
-        border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
-    }
-
-    100% {
-        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    }
-}
-
-@keyframes floating-blob {
-    0% {
-        transform: translate(0, 0) scale(1) rotate(0deg);
-    }
-
-    33% {
-        transform: translate(30px, -50px) scale(1.05) rotate(15deg);
-    }
-
-    66% {
-        transform: translate(-20px, 40px) scale(0.95) rotate(-10deg);
-    }
-
-    100% {
-        transform: translate(0, 0) scale(1) rotate(0deg);
-    }
+@keyframes floatParticle {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
 }
 
 h1,
@@ -311,36 +213,36 @@ li {
     position: fixed;
     top: 0;
     left: 0;
-    transform: translate(-50%, -50%);
     border-radius: 50%;
-    z-index: 9999;
+    z-index: 99999;
     pointer-events: none;
-    transition: opacity 0.3s;
 }
 
 .cursor-dot {
-    width: 6px;
-    height: 6px;
-    background-color: var(--neon-cyan);
-    mix-blend-mode: difference;
+    width: 8px;
+    height: 8px;
+    background: var(--neon-cyan);
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px var(--neon-cyan), 0 0 20px rgba(0, 243, 255, 0.3);
 }
 
 .cursor-glow {
     width: 40px;
     height: 40px;
     background-color: transparent;
-    border: 1px solid rgba(0, 255, 204, 0.4);
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
-    transition: width 0.3s, height 0.3s, border-color 0.3s, transform 0.1s ease-out;
+    border: 1.5px solid rgba(0, 243, 255, 0.5);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.15), inset 0 0 10px rgba(189, 0, 255, 0.1);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Hover state for cursor */
 .cursor-hover .cursor-glow {
     width: 60px;
     height: 60px;
-    background-color: rgba(0, 255, 204, 0.1);
-    border-color: var(--neon-blue);
-    backdrop-filter: blur(2px);
+    background-color: rgba(0, 243, 255, 0.08);
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 30px rgba(189, 0, 255, 0.2), inset 0 0 15px rgba(0, 243, 255, 0.1);
 }
 
 
@@ -351,8 +253,10 @@ li {
     width: 100%;
     height: 100%;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.04;
+    opacity: 0.06;
     mix-blend-mode: overlay;
+    z-index: 2;
+    pointer-events: none;
 }
 
 /* ================= Typography & Utilities ================= */
@@ -690,121 +594,205 @@ li {
     z-index: 10;
 }
 
-.elegant-blob-container {
-    width: 380px;
-    height: 380px;
+/* WebGL Singularity Wrapper */
+.webgl-wrapper {
     position: relative;
+    width: 500px; height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 10;
+    margin-right: -50px;
+    transform-style: preserve-3d;
+    transition: transform 0.1s; /* smooth tilt */
 }
 
-.elegant-blob-container:hover {
-    transform: scale(1.03);
-}
-
-/* Base Soft Liquid Body (True Liquid Glass) */
-.elegant-blob {
-    width: 100%;
-    height: 100%;
-    /* Extremely translucent glass */
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-    border-radius: 50%;
-    
-    /* Perfect glass morphic shading: sharp bright rim light, intense glossy sheer */
-    box-shadow:
-        inset 10px 10px 30px rgba(255, 255, 255, 0.8),
-        inset -10px -10px 30px rgba(0, 0, 0, 0.2),
-        inset 0 0 20px rgba(255, 255, 255, 0.3),
-        0 30px 60px rgba(0, 0, 0, 0.5);
-        
-    /* Heavy blur for perfect glassmorphism */
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    
-    /* Perfect round bubble with steady floating animation */
-    animation: bubble-float 6s ease-in-out infinite alternate;
-    z-index: 2;
-    transition: var(--transition-smooth);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    
-    /* Used for swirling gradient */
-    position: relative;
-    overflow: hidden;
-}
-
-/* Swirling vibrant gradient inside the glass sphere */
-.elegant-blob::before {
-    content: '';
+/* Floor shadow selling the antigravity effect */
+.webgl-shadow {
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(from 0deg, #00f3ff, #ff007f, #bd00ff, #00f3ff);
-    filter: blur(50px);
-    opacity: 0.6;
-    animation: rotate-colors 8s linear infinite;
-    z-index: -1;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%) rotateX(75deg);
+    width: 250px;
+    height: 100px;
+    background: radial-gradient(ellipse at center, rgba(0, 243, 255, 0.15) 0%, rgba(189, 0, 255, 0.05) 40%, transparent 70%);
+    filter: blur(20px);
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+    animation: shadowPulse 2s infinite alternate ease-in-out;
 }
 
-.elegant-blob-container:hover .elegant-blob {
-    box-shadow:
-        inset 15px 15px 45px rgba(255, 255, 255, 1),
-        inset -15px -15px 40px rgba(0, 0, 0, 0.3),
-        inset 0 0 30px rgba(255, 255, 255, 0.5),
-        0 40px 80px rgba(0, 0, 0, 0.6);
-    border-color: rgba(255, 255, 255, 0.6);
+@keyframes shadowPulse {
+    0% { transform: translateX(-50%) rotateX(75deg) scale(0.9); opacity: 0.6; }
+    100% { transform: translateX(-50%) rotateX(75deg) scale(1.1); opacity: 1; }
 }
 
-@keyframes rotate-colors {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+#singularityCanvas {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px !important;
+    height: 600px !important;
+    mix-blend-mode: screen; /* Enhance neon glowing against the dark void */
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 1.5s ease;
 }
 
-@keyframes bubble-float {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(-20px); }
+/* Fades in the canvas once it's loaded to avoid jumping */
+#singularityCanvas.loaded {
+    opacity: 1;
 }
 
-@keyframes elegant-flow {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    100% {
-        background-position: 100% 50%;
-    }
+/* ================= Resume Email Gate Modal ================= */
+.resume-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
-@keyframes elegant-glow {
-    0% {
-        background-position: 0% 50%;
-        opacity: 0.5;
-    }
-
-    100% {
-        background-position: 100% 50%;
-        opacity: 0.7;
-    }
+.resume-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
 }
 
-@keyframes float-animation {
-
-    0%,
-    100% {
-        transform: translateY(0) rotate(0.5deg);
-    }
-
-    50% {
-        transform: translateY(-15px) rotate(-0.5deg);
-    }
+.resume-modal {
+    position: relative;
+    width: 420px;
+    max-width: 90vw;
+    padding: 40px 36px;
+    background: rgba(10, 10, 25, 0.85);
+    border: 1px solid rgba(0, 243, 255, 0.15);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 243, 255, 0.05);
+    text-align: center;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.float-animation {
-    animation: float-animation 12s ease-in-out infinite;
+.resume-modal-overlay.active .resume-modal {
+    transform: scale(1) translateY(0);
+}
+
+.resume-modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    line-height: 1;
+}
+.resume-modal-close:hover {
+    color: var(--neon-cyan);
+    transform: rotate(90deg);
+}
+
+.resume-modal-icon {
+    width: 64px; height: 64px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.15), rgba(189, 0, 255, 0.15));
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: var(--neon-cyan);
+}
+
+.resume-modal-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.resume-modal-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+.resume-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px 16px;
+    transition: border-color 0.3s;
+}
+.resume-input-wrapper:focus-within {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+}
+.resume-input-wrapper i {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+.resume-input-wrapper input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Outfit', sans-serif;
+}
+.resume-input-wrapper input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.resume-email-error {
+    color: #ff4d6a;
+    font-size: 0.8rem;
+    margin-top: 8px;
+    margin-bottom: 0;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s, height 0.3s, margin 0.3s;
+}
+.resume-email-error.show {
+    opacity: 1;
+    height: 20px;
+    margin-bottom: 8px;
+}
+
+.resume-modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+.resume-modal-actions .btn {
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+}
+.resume-download-btn .btn-text,
+.resume-view-btn .btn-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
 }
 
 /* ================= About Section ================= */

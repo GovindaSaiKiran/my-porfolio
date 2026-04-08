@@ -27,21 +27,21 @@
     <div class="cursor-dot"></div>
     <div class="cursor-glow"></div>
 
-    <!-- Vibrant Animated Gradients -->
-    <div class="vibrant-bg-gradients">
-        <div class="glow-layer glow-blue"></div>
-        <div class="glow-layer glow-purple"></div>
-        <div class="glow-layer glow-pink"></div>
-        <div class="glow-layer glow-cyan"></div>
-        <div class="glow-layer glow-orange"></div>
-    </div>
-
-    <!-- 3D Background effect (floating blobs) -->
-    <div class="background-container">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-        <div class="blob blob-4"></div>
+    <!-- Dark UI Antigravity Background -->
+    <div class="antigravity-bg">
+        <canvas id="neural-net-bg"></canvas>
+        <div class="ambient-glow glow-1"></div>
+        <div class="ambient-glow glow-2"></div>
+        
+        <!-- Floating Glass Objects (Depth Illusion and Parallax) -->
+        <div class="ag-element shape-circle blur-sm ag-parallax" data-speed="2.4" data-depth="0.2"></div>
+        <div class="ag-element shape-square blur-lg ag-parallax" data-speed="-1.8" data-depth="0.8"></div>
+        <div class="ag-element shape-ring blur-md ag-parallax" data-speed="3.5" data-depth="0.3"></div>
+        <div class="ag-element shape-blob blur-none ag-parallax" data-speed="-2.0" data-depth="0.9"></div>
+        <div class="ag-element shape-donut blur-xl ag-parallax" data-speed="1.1" data-depth="0.1"></div>
+        
+        <!-- Floating Particles Layer -->
+        <div class="ag-particles" id="agParticles"></div>
         <div class="noise-overlay"></div>
     </div>
 
@@ -82,16 +82,38 @@
                     <a href="#contact" class="btn magnetic-btn btn-secondary glass-btn">
                         <span class="btn-text">Contact Me</span>
                     </a>
+                    <a href="#" id="resumeBtn" class="btn magnetic-btn btn-secondary glass-btn btn-resume">
+                        <span class="btn-text"><i class="fas fa-file-alt"></i> Resume</span>
+                    </a>
                 </div>
             </div>
 
-            <!-- Abstract 3D Object Representation -->
-            <div class="hero-graphic parallax-wrap">
-                <div class="elegant-blob-container parallax-element float-animation" data-speed="-2">
-                    <div class="elegant-blob"></div>
-                </div>
+            <!-- Neon Singularity 3D Animation (WebGL) -->
+            <div class="hero-graphic webgl-wrapper" id="webglContainer">
+                <canvas id="singularityCanvas"></canvas>
+                <div class="webgl-shadow"></div>
             </div>
         </section>
+
+        <!-- Resume Options Modal -->
+        <div class="resume-modal-overlay" id="resumeModal">
+            <div class="resume-modal glass-card">
+                <button class="resume-modal-close" id="resumeModalClose">&times;</button>
+                <div class="resume-modal-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h3 class="resume-modal-title">My Resume</h3>
+                <p class="resume-modal-desc">How would you like to access it?</p>
+                <div class="resume-modal-actions">
+                    <a href="Taninki_Govinda_Sai_Kiran_Professional_Resume.pdf" target="_blank" class="btn btn-primary glass-btn resume-view-btn">
+                        <span class="btn-text"><i class="fas fa-eye"></i> View Online</span>
+                    </a>
+                    <a href="Taninki_Govinda_Sai_Kiran_Professional_Resume.pdf" download class="btn btn-secondary glass-btn resume-download-btn">
+                        <span class="btn-text"><i class="fas fa-download"></i> Download</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <!-- About Section -->
         <section id="about" class="about section-padding">
@@ -410,7 +432,6 @@
 
     <!-- 3D Background Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 
     <!-- Custom JS -->
     <script src="script.js"></script>

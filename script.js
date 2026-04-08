@@ -30,53 +30,330 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 1. Initialize 3D Background effect
-    const vantaEffect = VANTA.NET({
-        el: ".background-container",
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 1.00,
-        scaleMobile: 1.00,
-        color: 0x33b8ff,
-        backgroundColor: 0x050508,
-        backgroundAlpha: 0.00,
-        points: 8.00,
-        maxDistance: 18.00,
-        spacing: 17.00
-    });
+    // 1. Initialize Antigravity Particles
+    const particleContainer = document.getElementById('agParticles');
+    if (particleContainer) {
+        for (let i = 0; i < 40; i++) {
+            const part = document.createElement('div');
+            part.classList.add('ag-particle');
+            part.style.left = `${Math.random() * 100}vw`;
+            part.style.top = `${Math.random() * 100}vh`;
+            const size = Math.random() * 4 + 1;
+            part.style.width = `${size}px`;
+            part.style.height = `${size}px`;
+            part.style.animationDuration = `${Math.random() * 15 + 10}s`;
+            part.style.animationDelay = `${Math.random() * 5}s`;
+            // Give some parallax effect to particles too
+            part.classList.add('ag-parallax');
+            part.setAttribute('data-speed', (Math.random() * 0.5 + 0.1).toFixed(2));
+            part.setAttribute('data-depth', (Math.random() * 0.5).toFixed(2));
+            particleContainer.appendChild(part);
+        }
+    }
     
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // 2. Custom Cursor
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorGlow = document.querySelector('.cursor-glow');
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let cursorGlowX = window.innerWidth / 2;
+    let cursorGlowY = window.innerHeight / 2;
     
     if (window.matchMedia("(pointer: fine)").matches) {
         document.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            
-            cursorGlow.style.left = `${posX}px`;
-            cursorGlow.style.top = `${posY}px`;
-
-            // Deeper Parallax for floating elements
-            const parallaxWraps = document.querySelectorAll('.parallax-wrap');
-            parallaxWraps.forEach(wrap => {
-                const elements = wrap.querySelectorAll('.parallax-element');
-                elements.forEach(el => {
-                    const speed = el.getAttribute('data-speed') || 2;
-                    const x = ((posX - window.innerWidth / 2) * speed) / 80; // deepened
-                    const y = ((posY - window.innerHeight / 2) * speed) / 80;
-                    el.style.transform = `translate(${x}px, ${y}px)`;
-                });
-            });
+            targetX = e.clientX;
+            targetY = e.clientY;
         });
+
+        // Antigravity Parallax with Inertia (Lerp)
+        const agElements = document.querySelectorAll('.ag-parallax');
+        const lerp = (start, end, factor) => start + (end - start) * factor;
+
+        // Idle float variables
+        let time = 0;
+        
+        // WebGL wrapper hover physics variables
+        const webglWrapper = document.getElementById('webglContainer');
+        let webglCurrX = window.innerWidth / 2;
+        let webglCurrY = window.innerHeight / 2;
+        
+        
+        // ================= WebGL Neon Singularity Setup =================
+        const canvas = document.getElementById('singularityCanvas');
+        if (canvas && typeof THREE !== 'undefined') {
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(600, 600);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+            camera.position.z = 250;
+            
+            const particleCount = 3000;
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            const basePositions = new Float32Array(particleCount * 3);
+            
+            const neonColors = [
+                new THREE.Color(0x00f3ff), // Neon Cyan
+                new THREE.Color(0xbd00ff), // Neon Purple
+                new THREE.Color(0x0066ff), // Neon Blue
+            ];
+            
+            for (let i = 0; i < particleCount; i++) {
+                // Perfect Spherical distribution via Fibonacci algorithm
+                const r = 75; // Decreased radius for a smaller perfect bubble
+                const phi = Math.acos(1 - 2 * (i + 0.5) / particleCount);
+                const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+                
+                const x = r * Math.sin(phi) * Math.cos(theta);
+                const y = r * Math.sin(phi) * Math.sin(theta);
+                const z = r * Math.cos(phi);
+                
+                positions[i*3] = x;
+                positions[i*3+1] = y;
+                positions[i*3+2] = z;
+                
+                basePositions[i*3] = x;
+                basePositions[i*3+1] = y;
+                basePositions[i*3+2] = z;
+                
+                // Mix colors based on random vibrant neon selection
+                const randomColor = neonColors[Math.floor(Math.random() * neonColors.length)];
+                colors[i*3] = randomColor.r;
+                colors[i*3+1] = randomColor.g;
+                colors[i*3+2] = randomColor.b;
+            }
+            
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            
+            const material = new THREE.PointsMaterial({
+                size: 2.0, // slightly smaller points for a crisp looking sphere
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.85,
+                blending: THREE.AdditiveBlending
+            });
+            
+            const particleMesh = new THREE.Points(geometry, material);
+            scene.add(particleMesh);
+            
+            canvas.classList.add('loaded'); // fade in softly
+            
+            // Expose vars for animation loop
+            window.singularityMesh = particleMesh;
+            window.singularityBasePos = basePositions;
+            window.singularityRenderer = renderer;
+            window.singularityScene = scene;
+            window.singularityCamera = camera;
+        }
+        function agAnimationLoop() {
+            // Cursor — dot is instant, glow trails via CSS transition
+            if (cursorGlow && cursorDot) {
+                // Dot snaps instantly to mouse — perfectly accurate
+                cursorDot.style.left = `${targetX}px`;
+                cursorDot.style.top = `${targetY}px`;
+                // Glow follows same position — CSS transition creates trail effect
+                cursorGlow.style.left = `${targetX}px`;
+                cursorGlow.style.top = `${targetY}px`;
+            }
+
+            // Background Elements Inertia Parallax
+            agElements.forEach(el => {
+                if (!el.currX) el.currX = window.innerWidth / 2;
+                if (!el.currY) el.currY = window.innerHeight / 2;
+                
+                el.currX = lerp(el.currX, targetX, 0.05);
+                el.currY = lerp(el.currY, targetY, 0.05);
+                
+                const speed = parseFloat(el.getAttribute('data-speed')) || 1;
+                const depth = parseFloat(el.getAttribute('data-depth')) || 0.5;
+                const moveModifier = (2 - depth) * speed;
+                
+                const x = ((el.currX - window.innerWidth / 2) * moveModifier) / 80;
+                const y = ((el.currY - window.innerHeight / 2) * moveModifier) / 80;
+                
+                const currentTransform = el.style.transform;
+                let rotateMatch = currentTransform ? currentTransform.match(/rotate\([^)]+\)/) : null;
+                const rotateStr = rotateMatch ? rotateMatch[0] : '';
+                
+                el.style.transform = `translate(${x}px, ${y}px) ${rotateStr}`;
+            });
+            
+            // WebGL Wrapper Inertia Tilt (10-20px range + 3d tilt)
+            if (webglWrapper) {
+                webglCurrX = lerp(webglCurrX, targetX, 0.05);
+                webglCurrY = lerp(webglCurrY, targetY, 0.05);
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                
+                // Range limited 10-20px movement
+                const moveX = ((webglCurrX - centerX) / centerX) * 20;
+                const moveY = ((webglCurrY - centerY) / centerY) * 20;
+                
+                const tiltX = ((webglCurrY - centerY) / centerY) * -15;
+                const tiltY = ((webglCurrX - centerX) / centerX) * 15;
+                
+                webglWrapper.style.transform = `translate3d(${moveX}px, ${moveY}px, 0) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+            }
+
+            // Neon Singularity WebGL Physics
+            if (window.singularityMesh) {
+                const mesh = window.singularityMesh;
+                const positions = mesh.geometry.attributes.position.array;
+                const base = window.singularityBasePos;
+                
+                time += 0.02; // Advance global time
+                
+                // Rotate sphere slowly overall
+                mesh.rotation.y += 0.002;
+                mesh.rotation.x += 0.001;
+                
+                // Mouse interaction mapped to local 3D space
+                const ndcX = ((targetX - window.innerWidth / 2) / (window.innerWidth / 2));
+                const ndcY = -((targetY - window.innerHeight / 2) / (window.innerHeight / 2));
+                
+                const pullX = ndcX * 150;
+                const pullY = ndcY * 150;
+                
+                // Enforce perfect circle rigidly (no waves)
+                for(let i = 0; i < positions.length; i += 3) {
+                    positions[i] = base[i];
+                    positions[i+1] = base[i+1];
+                    positions[i+2] = base[i+2];
+                }
+                
+                mesh.geometry.attributes.position.needsUpdate = true;
+                window.singularityRenderer.render(window.singularityScene, window.singularityCamera);
+            }
+
+
+
+            requestAnimationFrame(agAnimationLoop);
+        }
+        agAnimationLoop();
+
+        // ================= Animated Neural Network Background =================
+        const nnCanvas = document.getElementById('neural-net-bg');
+        if (nnCanvas) {
+            const ctx = nnCanvas.getContext('2d');
+            let nnW, nnH;
+            function resizeNN() {
+                nnW = window.innerWidth; nnH = window.innerHeight;
+                nnCanvas.width = nnW; nnCanvas.height = nnH;
+            }
+            window.addEventListener('resize', resizeNN);
+            resizeNN();
+
+            const neonColors = [
+                { r:0, g:200, b:255 },   // Bright Cyan
+                { r:130, g:0, b:255 },    // Vivid Purple
+                { r:0, g:120, b:255 },    // Electric Blue
+                { r:0, g:255, b:200 },    // Neon Teal
+                { r:200, g:0, b:255 },    // Hot Purple
+            ];
+
+            // Denser node count for richer network
+            const nodeCount = 150;
+            const maxDist = 190;
+            const nodes = [];
+            for (let i = 0; i < nodeCount; i++) {
+                nodes.push({
+                    x: Math.random() * nnW,
+                    y: Math.random() * nnH,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    radius: Math.random() * 2.2 + 0.8,
+                    color: neonColors[Math.floor(Math.random() * neonColors.length)],
+                    pulse: Math.random() * Math.PI * 2  // phase offset for pulsing
+                });
+            }
+
+            let nnMouseX = nnW / 2, nnMouseY = nnH / 2;
+            let nnTime = 0;
+
+            function drawNN() {
+                ctx.clearRect(0, 0, nnW, nnH);
+                nnTime += 0.01;
+
+                // Smooth mouse tracking
+                nnMouseX = nnMouseX + (targetX - nnMouseX) * 0.05;
+                nnMouseY = nnMouseY + (targetY - nnMouseY) * 0.05;
+
+                // Draw connections first (behind nodes)
+                for (let i = 0; i < nodes.length; i++) {
+                    const n = nodes[i];
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const n2 = nodes[j];
+                        const dx = n.x - n2.x, dy = n.y - n2.y;
+                        const d = Math.sqrt(dx * dx + dy * dy);
+                        if (d < maxDist) {
+                            const op = Math.pow(1 - d / maxDist, 1.5) * 0.55;
+                            // Gradient line between two node colors
+                            const grad = ctx.createLinearGradient(n.x, n.y, n2.x, n2.y);
+                            grad.addColorStop(0, `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, ${op})`);
+                            grad.addColorStop(1, `rgba(${n2.color.r}, ${n2.color.g}, ${n2.color.b}, ${op})`);
+                            ctx.beginPath();
+                            ctx.moveTo(n.x, n.y);
+                            ctx.lineTo(n2.x, n2.y);
+                            ctx.strokeStyle = grad;
+                            ctx.lineWidth = 1.0;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                // Update and draw nodes
+                for (let i = 0; i < nodes.length; i++) {
+                    const n = nodes[i];
+
+                    // Drift movement
+                    n.x += n.vx;
+                    n.y += n.vy;
+
+                    // Cursor repulsion — nodes gently push away from mouse
+                    const mdx = nnMouseX - n.x, mdy = nnMouseY - n.y;
+                    const md = Math.sqrt(mdx * mdx + mdy * mdy);
+                    if (md < 200) {
+                        const force = (200 - md) / 200 * 0.8;
+                        n.x -= (mdx / md) * force;
+                        n.y -= (mdy / md) * force;
+                    }
+
+                    // Wrap around edges
+                    if (n.x < -20) n.x = nnW + 20;
+                    if (n.x > nnW + 20) n.x = -20;
+                    if (n.y < -20) n.y = nnH + 20;
+                    if (n.y > nnH + 20) n.y = -20;
+
+                    // Pulsing radius for living feel
+                    const pulseScale = 1 + Math.sin(nnTime * 2 + n.pulse) * 0.3;
+                    const drawRadius = n.radius * pulseScale;
+
+                    // Draw outer glow halo
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, drawRadius * 3, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, 0.06)`;
+                    ctx.fill();
+
+                    // Draw node core with strong glow
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, drawRadius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, 0.9)`;
+                    ctx.shadowColor = `rgba(${n.color.r}, ${n.color.g}, ${n.color.b}, 0.6)`;
+                    ctx.shadowBlur = 14;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+
+                requestAnimationFrame(drawNN);
+            }
+            drawNN();
+        }
 
         const interactives = document.querySelectorAll('a, button, input, textarea, .glass-card, .skill-item');
         interactives.forEach(el => {
@@ -259,13 +536,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // 7. Smooth Scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
             const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
+            if (targetId === '#' || this.id === 'resumeBtn') return; // skip resume btn
+            e.preventDefault();
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 window.scrollTo({ top: targetElement.offsetTop - 80, behavior: 'smooth' });
             }
         });
     });
+
+    // 8. Resume Options Modal
+    const resumeBtn = document.getElementById('resumeBtn');
+    const resumeModal = document.getElementById('resumeModal');
+    const resumeModalClose = document.getElementById('resumeModalClose');
+
+    if (resumeBtn && resumeModal) {
+        resumeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            resumeModal.classList.add('active');
+        });
+
+        resumeModalClose.addEventListener('click', () => {
+            resumeModal.classList.remove('active');
+        });
+
+        resumeModal.addEventListener('click', (e) => {
+            if (e.target === resumeModal) {
+                resumeModal.classList.remove('active');
+            }
+        });
+    }
 });
