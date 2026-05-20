@@ -105,10 +105,10 @@
                 <h3 class="resume-modal-title">My Resume</h3>
                 <p class="resume-modal-desc">How would you like to access it?</p>
                 <div class="resume-modal-actions">
-                    <a href="Taninki_Govinda_Sai_Kiran_Professional_Resume.pdf" target="_blank" class="btn btn-primary glass-btn resume-view-btn">
+                    <a href="Taninki_Govinda_Sai_Kiran_Resume.pdf" target="_blank" class="btn btn-primary glass-btn resume-view-btn">
                         <span class="btn-text"><i class="fas fa-eye"></i> View Online</span>
                     </a>
-                    <a href="Taninki_Govinda_Sai_Kiran_Professional_Resume.pdf" download class="btn btn-secondary glass-btn resume-download-btn">
+                    <a href="Taninki_Govinda_Sai_Kiran_Resume.pdf" download class="btn btn-secondary glass-btn resume-download-btn">
                         <span class="btn-text"><i class="fas fa-download"></i> Download</span>
                     </a>
                 </div>
@@ -123,7 +123,16 @@
             </div>
 
             <div class="about-grid">
-                <div class="glass-card main-about-card tilt-card scroll-reveal">
+                <!-- Profile Image Card -->
+                <div class="glass-card profile-image-card tilt-card scroll-reveal">
+                    <div class="card-glow"></div>
+                    <div class="profile-img-wrapper">
+                        <img src="assets/profile-photo.jpg" alt="TANINKI GOVINDA SAI KIRAN" class="profile-photo">
+                        <div class="image-overlay"></div>
+                    </div>
+                </div>
+
+                <div class="glass-card main-about-card tilt-card scroll-reveal delay-1">
                     <div class="card-glow"></div>
                     <div class="icon-glass-container">
                         <i class="fas fa-user-astronaut card-icon"></i>
@@ -135,7 +144,7 @@
                         technology.</p>
                 </div>
 
-                <div class="glass-card education-card tilt-card scroll-reveal delay-1">
+                <div class="glass-card education-card tilt-card scroll-reveal delay-2">
                     <div class="card-glow"></div>
                     <div class="icon-glass-container" style="border-color: rgba(255, 0, 127, 0.2);">
                         <i class="fas fa-graduation-cap card-icon" style="color: var(--neon-pink); filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.3));"></i>
@@ -295,53 +304,95 @@
             </div>
 
             <div class="projects-grid">
-                <!-- Project 1 -->
-                <div class="glass-project-card tilt-card scroll-reveal">
+                <!-- Project 1: CivicGuide -->
+                <a href="https://smart-election-assistant-488041159564.us-central1.run.app/" target="_blank" class="glass-project-card tilt-card scroll-reveal" style="text-decoration: none; color: inherit;">
                     <div class="project-image-placeholder">
-                        <img src="assets/project-ml.png" alt="Machine Learning Model" class="project-img">
+                        <img src="assets/project-civic-guide.png" alt="CivicGuide" class="project-img">
                         <div class="image-overlay"></div>
                     </div>
                     <div class="project-info">
-                        <h3>Machine Learning Model</h3>
-                        <p>Predictive analysis model built with Python and scikit-learn.</p>
+                        <h3>CivicGuide</h3>
+                        <p>A premium election education platform for Indian citizens with an AI assistant, interactive voting day simulator, and form registration walkthrough.</p>
                         <div class="tags">
-                            <span class="tag">Python</span>
-                            <span class="tag">ML</span>
+                            <span class="tag">AI (Gemini)</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">Cloud Run</span>
                         </div>
+                        <span class="project-link"><i class="fas fa-external-link-alt"></i> View Project</span>
                     </div>
-                </div>
+                </a>
 
-                <!-- Project 2 -->
-                <div class="glass-project-card tilt-card scroll-reveal delay-1">
+                <!-- Project 2: Student Skill Exchange -->
+                <a href="https://govindasaikiran.github.io/REACT_PROJECT/" target="_blank" class="glass-project-card tilt-card scroll-reveal delay-1" style="text-decoration: none; color: inherit;">
                     <div class="project-image-placeholder">
-                        <img src="assets/project-web.png" alt="Modern Web Dashboard" class="project-img">
+                        <img src="assets/project-skill-exchange.png" alt="Student Skill Exchange" class="project-img">
                         <div class="image-overlay"></div>
                     </div>
                     <div class="project-info">
-                        <h3>Modern Web Dashboard</h3>
-                        <p>Responsive analytics dashboard with glassmorphism UI.</p>
+                        <h3>Skill Exchange</h3>
+                        <p>An interactive digital platform for student skill sharing, tutoring collaboration, and peer-to-peer tutoring exchange.</p>
                         <div class="tags">
-                            <span class="tag">HTML/CSS</span>
+                            <span class="tag">React</span>
+                            <span class="tag">CSS</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                        <span class="project-link"><i class="fas fa-external-link-alt"></i> View Project</span>
+                    </div>
+                </a>
+
+                <!-- Project 3: App Hub -->
+                <a href="https://govindasaikiran.github.io/my-first-project/" target="_blank" class="glass-project-card tilt-card scroll-reveal delay-2" style="text-decoration: none; color: inherit;">
+                    <div class="project-image-placeholder">
+                        <img src="assets/project-app-hub.png" alt="App Hub" class="project-img">
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>App Hub</h3>
+                        <p>A curated portal and directory of best apps and services (like AI tools, shopping, food, travel) to save users time and discover quality websites.</p>
+                        <div class="tags">
+                            <span class="tag">HTML</span>
+                            <span class="tag">Tailwind CSS</span>
                             <span class="tag">JS</span>
                         </div>
+                        <span class="project-link"><i class="fas fa-external-link-alt"></i> View Project</span>
                     </div>
-                </div>
+                </a>
 
-                <!-- Project 3 -->
-                <div class="glass-project-card tilt-card scroll-reveal delay-2">
+                <!-- Project 4: QR Code Generator -->
+                <a href="https://github.com/GovindaSaiKiran/qr-code-generator-python.git" target="_blank" class="glass-project-card tilt-card scroll-reveal" style="text-decoration: none; color: inherit;">
                     <div class="project-image-placeholder">
-                        <img src="assets/project-app.png" alt="Smart Utility App" class="project-img">
+                        <img src="assets/project-qr-generator.png" alt="QR Code Generator" class="project-img">
                         <div class="image-overlay"></div>
                     </div>
                     <div class="project-info">
-                        <h3>Smart Utility App</h3>
-                        <p>Mobile application concept for daily task management.</p>
+                        <h3>QR Code Generator</h3>
+                        <p>A Python desktop graphical user interface application to generate and save customized high-quality QR codes quickly.</p>
                         <div class="tags">
-                            <span class="tag">UI/UX</span>
-                            <span class="tag">Design</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">Tkinter</span>
+                            <span class="tag">Desktop App</span>
                         </div>
+                        <span class="project-link"><i class="fas fa-external-link-alt"></i> View Project</span>
                     </div>
-                </div>
+                </a>
+
+                <!-- Project 5: Bus Ticket Booking System -->
+                <a href="https://github.com/GovindaSaiKiran/sql_project.git" target="_blank" class="glass-project-card tilt-card scroll-reveal delay-1" style="text-decoration: none; color: inherit;">
+                    <div class="project-image-placeholder">
+                        <img src="assets/project-bus-booking.png" alt="Bus Ticket Booking System" class="project-img">
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Bus Booking System</h3>
+                        <p>A Python Terminal User Interface (TUI) application for booking bus tickets, incorporating sqlite3 database persistence and styled prompts using Rich.</p>
+                        <div class="tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">SQLite</span>
+                            <span class="tag">Rich TUI</span>
+                        </div>
+                        <span class="project-link"><i class="fas fa-external-link-alt"></i> View Project</span>
+                    </div>
+                </a>
             </div>
         </section>
 
