@@ -216,33 +216,76 @@ li {
     border-radius: 50%;
     z-index: 99999;
     pointer-events: none;
+    will-change: transform, width, height;
 }
 
 .cursor-dot {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     background: var(--neon-cyan);
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 8px var(--neon-cyan), 0 0 20px rgba(0, 243, 255, 0.3);
+    box-shadow: 0 0 12px var(--neon-cyan), 0 0 25px rgba(0, 243, 255, 0.4);
+    transition: width 0.2s ease, height 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .cursor-glow {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     background-color: transparent;
-    border: 1.5px solid rgba(0, 243, 255, 0.5);
-    box-shadow: 0 0 20px rgba(0, 243, 255, 0.15), inset 0 0 10px rgba(189, 0, 255, 0.1);
+    border: 2px solid rgba(0, 243, 255, 0.5);
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.2), inset 0 0 12px rgba(189, 0, 255, 0.1);
     transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1), height 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
 }
 
-/* Hover state for cursor */
+/* Hover state for cursor — expands with glow */
+.cursor-hover .cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    box-shadow: 0 0 15px #fff, 0 0 30px var(--neon-cyan);
+}
+
 .cursor-hover .cursor-glow {
-    width: 60px;
-    height: 60px;
-    background-color: rgba(0, 243, 255, 0.08);
+    width: 70px;
+    height: 70px;
+    background-color: rgba(0, 243, 255, 0.06);
     border-color: var(--neon-purple);
-    box-shadow: 0 0 30px rgba(189, 0, 255, 0.2), inset 0 0 15px rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 40px rgba(189, 0, 255, 0.25), inset 0 0 20px rgba(0, 243, 255, 0.1);
+}
+
+/* Click state — pulse inward */
+.cursor-click .cursor-dot {
+    width: 14px;
+    height: 14px;
+    background: var(--neon-purple);
+    box-shadow: 0 0 20px var(--neon-purple), 0 0 40px rgba(189, 0, 255, 0.5);
+}
+
+.cursor-click .cursor-glow {
+    width: 30px;
+    height: 30px;
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 50px rgba(255, 0, 127, 0.3);
+}
+
+/* Text input cursor state */
+.cursor-text .cursor-dot {
+    width: 3px;
+    height: 24px;
+    border-radius: 2px;
+    background: var(--neon-cyan);
+}
+
+.cursor-text .cursor-glow {
+    width: 50px;
+    height: 50px;
+    opacity: 0.4;
+}
+
+@keyframes cursorRipple {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(8); opacity: 0; border-width: 0.5px; }
 }
 
 
@@ -585,7 +628,7 @@ li {
     gap: 20px;
 }
 
-/* 3D Orb Graphic */
+/* Profile Photo Container */
 .hero-graphic {
     flex-shrink: 0;
     width: 400px;
@@ -594,52 +637,48 @@ li {
     z-index: 10;
 }
 
-/* WebGL Singularity Wrapper */
+/* Photo Wrapper — flat, no 3D */
 .webgl-wrapper {
     position: relative;
-    width: 500px; height: 500px;
+    width: 400px;
+    height: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10;
-    margin-right: -50px;
-    transform-style: preserve-3d;
-    transition: transform 0.1s; /* smooth tilt */
 }
 
-/* Floor shadow selling the antigravity effect */
+/* Floor shadow — soft glow beneath photo */
 .webgl-shadow {
     position: absolute;
-    bottom: -80px;
+    bottom: -40px;
     left: 50%;
-    transform: translateX(-50%) rotateX(75deg);
-    width: 250px;
-    height: 100px;
-    background: radial-gradient(ellipse at center, rgba(0, 243, 255, 0.15) 0%, rgba(189, 0, 255, 0.05) 40%, transparent 70%);
-    filter: blur(20px);
+    transform: translateX(-50%);
+    width: 280px;
+    height: 60px;
+    background: radial-gradient(ellipse at center, rgba(0, 243, 255, 0.2) 0%, rgba(189, 0, 255, 0.08) 40%, transparent 70%);
+    filter: blur(25px);
     border-radius: 50%;
     z-index: 0;
     pointer-events: none;
-    animation: shadowPulse 2s infinite alternate ease-in-out;
+    animation: shadowPulse 3s infinite alternate ease-in-out;
 }
 
 @keyframes shadowPulse {
-    0% { transform: translateX(-50%) rotateX(75deg) scale(0.9); opacity: 0.6; }
-    100% { transform: translateX(-50%) rotateX(75deg) scale(1.1); opacity: 1; }
+    0% { opacity: 0.5; transform: translateX(-50%) scale(0.9); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1.1); }
 }
 
 #heroProfilePhoto {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    height: 400px;
+    width: 380px;
+    height: 380px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid rgba(0, 243, 255, 0.4);
-    box-shadow: 0 0 50px rgba(0, 243, 255, 0.3), inset 0 0 30px rgba(0, 243, 255, 0.2);
+    object-position: center 20%;
+    border: 10px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 243, 255, 0.15);
     z-index: 5;
-    animation: shadowPulse 4s infinite alternate ease-in-out;
+    display: block;
 }
 
 /* ================= Resume Email Gate Modal ================= */
@@ -794,7 +833,7 @@ li {
 /* ================= About Section ================= */
 .about-grid {
     display: grid;
-    grid-template-columns: 0.8fr 1.4fr 1fr;
+    grid-template-columns: 1.2fr 1fr;
     gap: 30px;
 }
 
@@ -819,18 +858,18 @@ li {
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    border: 3px solid rgba(0, 243, 255, 0.3);
-    box-shadow: 0 0 25px rgba(0, 243, 255, 0.15), 
-                inset 0 0 15px rgba(0, 243, 255, 0.1);
+    border: 6px solid #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     position: relative;
-    transition: border-color 0.4s, box-shadow 0.4s;
+    transition: transform 0.4s, box-shadow 0.4s;
 }
 
 .profile-photo {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 15%;
     display: block;
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }

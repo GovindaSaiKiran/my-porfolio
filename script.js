@@ -184,21 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 el.style.transform = `translate(${x}px, ${y}px) ${rotateStr}`;
             });
             
-            // WebGL Wrapper Inertia Tilt (10-20px range + 3d tilt)
+            // Profile photo stays static — no mouse tilt or movement
             if (webglWrapper) {
-                webglCurrX = lerp(webglCurrX, targetX, 0.05);
-                webglCurrY = lerp(webglCurrY, targetY, 0.05);
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
-                
-                // Range limited 10-20px movement
-                const moveX = ((webglCurrX - centerX) / centerX) * 20;
-                const moveY = ((webglCurrY - centerY) / centerY) * 20;
-                
-                const tiltX = ((webglCurrY - centerY) / centerY) * -15;
-                const tiltY = ((webglCurrX - centerX) / centerX) * 15;
-                
-                webglWrapper.style.transform = `translate3d(${moveX}px, ${moveY}px, 0) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+                webglWrapper.style.transform = 'none';
             }
 
             // Neon Singularity WebGL Physics
@@ -355,10 +343,64 @@ document.addEventListener('DOMContentLoaded', () => {
             drawNN();
         }
 
-        const interactives = document.querySelectorAll('a, button, input, textarea, .glass-card, .skill-item');
+        // Cursor hover states for interactive elements
+        const interactives = document.querySelectorAll('a, button, .glass-card, .skill-item, .glass-list-item, .glass-project-card, .nav-link');
         interactives.forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+
+        // Cursor text state for input fields
+        const textFields = document.querySelectorAll('input, textarea');
+        textFields.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.remove('cursor-hover');
+                document.body.classList.add('cursor-text');
+            });
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-text'));
+        });
+
+        // Cursor click pulse effect
+        document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+        document.addEventListener('mouseup', () => {
+            document.body.classList.remove('cursor-click');
+            // Spawn a click ripple
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: fixed; left: ${targetX}px; top: ${targetY}px;
+                width: 10px; height: 10px; border-radius: 50%;
+                border: 2px solid rgba(189, 0, 255, 0.6);
+                transform: translate(-50%, -50%) scale(1);
+                pointer-events: none; z-index: 99998;
+                animation: cursorRipple 0.6s ease-out forwards;
+            `;
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+
+        // Cursor trailing particles on move
+        let lastTrailTime = 0;
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastTrailTime < 50) return; // throttle
+            lastTrailTime = now;
+            const trail = document.createElement('div');
+            trail.style.cssText = `
+                position: fixed; left: ${e.clientX}px; top: ${e.clientY}px;
+                width: 4px; height: 4px; border-radius: 50%;
+                background: rgba(0, 243, 255, 0.6);
+                box-shadow: 0 0 6px rgba(0, 243, 255, 0.4);
+                transform: translate(-50%, -50%);
+                pointer-events: none; z-index: 99998;
+                transition: all 0.5s ease-out;
+            `;
+            document.body.appendChild(trail);
+            requestAnimationFrame(() => {
+                trail.style.opacity = '0';
+                trail.style.width = '0px';
+                trail.style.height = '0px';
+            });
+            setTimeout(() => trail.remove(), 500);
         });
         
         // 2b. Magnetic Hover Logic
